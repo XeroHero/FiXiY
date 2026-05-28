@@ -95,4 +95,7 @@ public class NativeSearchGUI extends Application {
         primaryStage.show();
     }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
