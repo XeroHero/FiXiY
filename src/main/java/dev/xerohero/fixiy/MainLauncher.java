@@ -1,6 +1,4 @@
-package com.yourpackage; // Use your actual package name
-
-import dev.xerohero.fixiy.NativeSearchGUI;
+package dev.xerohero.fixiy; // Use your actual package name
 
 public class MainLauncher {
     public static void main(String[] args) {
