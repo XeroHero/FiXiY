@@ -1,5 +1,5 @@
 package dev.xerohero.fixiy;
-    
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -93,15 +93,14 @@ public class NativeSearchGUI extends Application {
     }
 
     private void handleBrowseAction(Stage stage) {
-        System.out.println("[Debug] Browse Folder Button Clicked Successfully!");
         DirectoryChooser dc = new DirectoryChooser();
+
         dc.setTitle("Select Target Search Folder");
 
         File choice = dc.showDialog(stage);
         if (choice != null) {
             selectedDirectory = choice;
             folderLabel.setText("Folder: " + selectedDirectory.getAbsolutePath());
-            System.out.println("[Debug] Path selected: " + selectedDirectory.getAbsolutePath());
         }
     }
 
