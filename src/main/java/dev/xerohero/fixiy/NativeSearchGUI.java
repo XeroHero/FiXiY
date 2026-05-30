@@ -32,7 +32,7 @@ public class NativeSearchGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Native Java String Finder V2");
+        primaryStage.setTitle("FiXiY - Find X in Y");
 
         initializeComponents(primaryStage);
 
