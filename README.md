@@ -21,25 +21,20 @@ FiXiY is a lightweight, Java-based desktop utility designed to streamline the pr
 
 1. Clone the repository:
 ```bash
-
-```
 git clone https://github.com/yourusername/fixiy.git
 cd fixiy
-
 ```
 
+
 2.  Build the project using Maven:
-    ```bash
+```bash
 mvn clean package
 
 ```
 
 3. Run the application:
 ```bash
-
-```
 java -jar target/fixiy-1.0.jar
-
 ```
 
 ## Usage
