@@ -19,7 +19,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>dev.xerohero.fixiy.Launcher</mainClass>
+                  <mainClass>dev.xerohero.fixiy.MainLauncher</mainClass>
                 </transformer>
               </transformers>
               <filters>
