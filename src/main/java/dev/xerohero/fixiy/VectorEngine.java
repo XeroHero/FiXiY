@@ -1,43 +1,59 @@
 package dev.xerohero.fixiy;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 
 public class VectorEngine {
 
+    private final VectorIndexRepository repository;
+
+    // A standard 500-character chunk size works great for logs and code files
+    private static final int CHUNK_SIZE = 500;
+
+    public VectorEngine(VectorIndexRepository repository) {
+        this.repository = repository;
+    }
+
     /**
-     * Transforms an input text string into a deterministic feature vector
-     * of exactly 384 float dimensions.
+     * Reads a file, splits it into chunks, generates embeddings, and saves to Lucene.
      */
-    public float[] vectorize(String text) {
-        if (text == null) {
-            return new float[384];
+    public void indexFile(File file) throws IOException {
+        String content = Files.readString(file.toPath());
+        String filePath = file.getAbsolutePath();
+
+        // Simple fixed-character moving window chunker
+        int chunkId = 0;
+        int index = 0;
+
+        while (index < content.length()) {
+            int endIndex = Math.min(index + CHUNK_SIZE, content.length());
+            String textChunk = content.substring(index, endIndex).trim();
+
+            if (!textChunk.isEmpty()) {
+                // 1. Generate the 384-dimensional embedding for this chunk
+                float[] embedding = generateEmbedding(textChunk);
+
+                // 2. Persist to our embedded storage using our strict schema
+                repository.addChunk(filePath, chunkId, textChunk, embedding);
+                chunkId++;
+            }
+            index += CHUNK_SIZE;
         }
 
-        float[] embedding = new float[384];
-        try {
-            // High-speed deterministic hashing to simulate token feature extraction
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(text.getBytes(StandardCharsets.UTF_8));
+        // Commit changes to disk so they are instantly searchable
+        repository.commit();
+    }
 
-            // Populate the 384 dimensions quickly using a deterministic pseudo-random sequence
-            long seed = 0;
-            for (byte b : hash) {
-                seed = (seed << 8) | (b & 0xFF);
-            }
-
-            java.util.Random deterministicRandom = new java.util.Random(seed);
-            for (int i = 0; i < 384; i++) {
-                embedding[i] = deterministicRandom.nextFloat() * 2.0f - 1.0f; // Values between -1.0 and 1.0
-            }
-
-        } catch (NoSuchAlgorithmException e) {
-            // Fallback layout initialization if digest provider is missing
-            for (int i = 0; i < 384; i++) {
-                embedding[i] = (float) Math.sin(text.hashCode() + i);
-            }
-        }
-        return embedding;
+    /**
+     * Dummy placeholder matching your performance test format.
+     * Replace with your actual LangChain4j / ONNX model call tomorrow.
+     */
+    private float[] generateEmbedding(String text) {
+        float[] vector = new float[384];
+        // Ensure deterministic fill or run your active model inference here
+        vector[0] = (float) Math.abs(text.hashCode() % 100) / 100.0f;
+        return vector;
     }
 }
