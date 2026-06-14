@@ -3,6 +3,8 @@ package dev.xerohero.fixiy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 
@@ -25,7 +27,7 @@ class VectorEngineTest {
 
     @Test
     @DisplayName("Assert input text returns a 384-float array within sub-millisecond thread execution constraints")
-    void testTextVectorizationDimensionAndPerformance() {
+    void testTextVectorizationDimensionAndPerformance() throws IOException {
         // 1. Arrange: Sample log string to process
         String sampleLog = "2026-06-13T19:53:35.124Z [WARN] dev.xerohero.fixiy.SearchEngine - Match count threshold exceeded.";
 
